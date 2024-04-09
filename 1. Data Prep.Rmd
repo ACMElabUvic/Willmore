@@ -1,0 +1,295 @@
+The purpose of this script is to prepare willmore data
+
+Main outputs we want
+1. List of independent detections to 30 minutes threshold
+2. Camera deployment file
+3. Site covariate file
+
+Andrew Barnas
+April 9th 2024
+andrew.f.barnas@gmail.com
+
+Load in packages we will need, setup working directories, and load in files
+```{r}
+#Clear everything out and start fresh
+rm(list=ls())
+
+library(tidyr)        # data tidying
+library(stringr)      # working with strings
+library(dplyr)        # data manipulation
+library(reproducible) # reproducible working directories
+library(ggplot2)      # plots
+library(ggpubr)       # combining plots
+library(lubridate)   # dates
+
+
+#Setup input and output paths
+input_directory <- checkPath(file.path(getwd(), "inputs"), 
+                            create = TRUE)
+
+output_directory <- checkPath(file.path(getwd(), "outputs"), 
+                             create = TRUE)
+
+
+#Read in the camera detections. Now Willmore is a bit strange because there is a seperate grid for the winter and summer regions, so we will have to read these in seperately and figure out how we would like to merge them together. Probably some different datetime and other formats as well.
+dets_summer<-read.csv(file.path(input_directory, "WillmoreSummer_alldata.csv"), header = TRUE)
+dets_winter<-read.csv(file.path(input_directory, "WillmoreWinter_alldata.csv"), header = TRUE)
+
+#Need something about camera deployment in here too
+cams<-read.csv(file.path(input_directory, "SUMMER WILLMORE BIODIVERSITY SITE LOCATIONS CORRECTED 2017.csv"), header = TRUE)
+
+
+```
+
+
+```{r}
+#I am intentionally dealing with the summer and winter data seperately first, as these operated on different years, so they may have different errors and formats to deal with. I will combine them at the end!
+
+#First I am curious about how many different sites there are
+n_distinct(dets_summer$Location)
+n_distinct(dets_winter$Location)
+
+#Ok so according to above, I have detections from 119 cameras, but location information from 124 cameras
+#This could be due to camera errors and whatnot, will deal with this a bit later
+n_distinct(cams$Camera_Site)
+
+#Looks like there is a blank, lets remove Locations without names
+unique(dets_summer$Location)
+dets_summer<-dets_summer%>%
+  filter(Location != "")
+
+#Same thing, there is a blank
+unique(dets_winter$Location)
+dets_winter<-dets_winter%>%
+  filter(Location != "")
+
+
+#Do any of these camera names overlap at all? Nope
+unique(dets_summer$Location) %in% unique(dets_winter$Location)
+
+#Lets clean up the detection file so that we only keep things we want
+colnames(dets_summer)
+colnames(dets_winter)
+
+dets_summer<-dets_summer%>%
+  dplyr::select(Date, Time, Location, Species)
+dets_winter<-dets_winter%>%
+  dplyr::select(Date, Time, Location, Species)
+
+```
+
+
+Ok lets create the camera operability matrix the array
+```{r}
+#Ok lets create the camera operability matrix. To do this we need to first know the first and last dates of operation for each camera. In the Willmore data we do not have a timelapse funciton, so this depends on knowing when the first and last detection (trigger) was.
+
+#First read in the datetimes for the detections
+dets_summer<-dets_summer%>%
+  mutate(datetime = paste(Date, Time, sep = " "),
+         datetime = dmy_hm(datetime))
+
+#quick look at the camera operability for these cameras
+dets_summer%>%
+  group_by(Location)%>%
+  mutate(start_date = min(datetime),
+         end_date = max(datetime))%>%
+  slice(1)%>%
+  ggplot(aes(y = Location))+
+  geom_segment(aes(x = start_date, xend = end_date, y = Location, yend = Location))
+
+#Camera SW-E5 looks a bit strange...very long deployment. Going to check it out in more detail
+A<-dets_summer%>%
+  filter(Location == "SW-E5")
+
+#Yeah so looks to me like there is an errant observation in July 2010 that is throwing things off?
+ggplot(A, aes(x = datetime))+
+  geom_histogram()
+
+#I am going to make an executive decision here that this must be an error. What are the chances of this camera having zero obsverations from late 2009 until a random wolverine on July 23rd 2010?
+A%>%
+  filter(datetime > ymd("2009-12-31"))
+#Removing it here
+dets_summer<-dets_summer%>%
+  filter(!(Location == "SW-E5" & Date == "23-Jul-10"))
+
+#This looks better.
+dets_summer%>%
+  group_by(Location)%>%
+  mutate(start_date = min(datetime),
+         end_date = max(datetime))%>%
+  slice(1)%>%
+  ggplot(aes(y = Location))+
+  geom_segment(aes(x = start_date, xend = end_date, y = Location, yend = Location))
+
+#This camera appears to only have one day of operability...likely a camera error, going to remove it.
+dets_summer%>%
+  filter(Location == "SW-S27")
+
+dets_summer<-dets_summer%>%
+  filter(Location != "SW-S27")
+
+```
+
+
+############################################
+```{r}
+
+#Now the winter cameras, one quick thing to note, Site W55? needs to be renamed to W35 accoring to the readme
+unique(dets_winter$Location)
+dets_winter<-dets_winter%>%
+  mutate(Location = gsub(pattern = "WW-W55?", replacement = "WW-W35", Location, fixed = TRUE))
+unique(dets_winter$Location)
+
+#Now the winter cameras
+dets_winter<-dets_winter%>%
+  mutate(datetime = paste(Date, Time, sep = " "),
+         datetime = dmy_hm(datetime))
+
+#Lets take a look at this operability matrix
+dets_winter%>%
+  group_by(Location)%>%
+  mutate(start_date = min(datetime),
+         end_date = max(datetime))%>%
+  slice(1)%>%
+  ggplot(aes(y = Location))+
+  geom_segment(aes(x = start_date, xend = end_date, y = Location, yend = Location))
+
+#Everything looks mostly good except for WW-W2, lets take a closer look
+A<-dets_winter%>%
+  filter(Location == "WW-W2")
+#Yeah strange, looks to be some outliers into the summer and fall??
+
+ggplot(A, aes(x = datetime))+
+  geom_histogram()
+#Yeah check these out, a bit strange. Going to remove them.
+A%>%
+  filter(datetime > ymd("2007-05-01"))
+dets_winter<-dets_winter%>%
+  filter(!(Location == "WW-W2" & dmy(Date) > ymd("2007-05-01")))
+
+#Looks better
+dets_winter%>%
+  group_by(Location)%>%
+  mutate(start_date = min(datetime),
+         end_date = max(datetime))%>%
+  slice(1)%>%
+  ggplot(aes(y = Location))+
+  geom_segment(aes(x = start_date, xend = end_date, y = Location, yend = Location))
+
+#Ok so now I think we can take a first crack at a camera operability matrix.
+dets<-rbind(dets_summer, dets_winter)
+
+dets<-dets%>%
+  group_by(Location)%>%
+  mutate(start_date = min(datetime),
+         end_date = max(datetime))%>%
+  slice(1)%>%
+  dplyr::select(Location, start_date, end_date)%>%
+  mutate(n_days = difftime(end_date, start_date, units = "days"))
+
+#Error checking here, want to see distribution of days
+#Looks fine. 
+ggplot(dets, aes(x = n_days))+
+  geom_histogram()
+
+#Ok last thing, lets add the coordinates into the detection file.
+#First the naming conventions are off, need to fix. 
+#Going to add SW or WW to the camera deployment files
+unique(dets$Location)
+unique(cams$Camera_Site)
+
+
+dets<-dets%>%
+ rename(site = Location)
+
+cams<-cams%>%
+  mutate(site = case_when(Season == "Winter" ~ paste("WW-", Camera_Site, sep = ""),
+                          Season == "Summer" ~ paste("SW-", Camera_Site, sep = "")))%>%
+  mutate(site = str_replace(site, "WW-W01", "WW-W1"),
+         site = str_replace(site, "WW-W02", "WW-W2"),
+         site = str_replace(site, "WW-W03", "WW-W3"),
+         site = str_replace(site, "WW-W04", "WW-W4"),
+         site = str_replace(site, "WW-W05", "WW-W5"),
+         site = str_replace(site, "WW-W06", "WW-W6"),
+         site = str_replace(site, "WW-W07", "WW-W7"),
+         site = str_replace(site, "WW-W08", "WW-W8"),
+         site = str_replace(site, "WW-W09", "WW-W9"))
+
+#Who did not get named properly?
+#From the readme we can ignore S9, S15, S19, S20, H1, H7
+#Not sure about S26, S27, S28, S29, maybe just no data? 
+cams%>%
+  filter(!site %in% unique(dets$site))
+
+unique(dets$site)
+
+#Who do we not have coordinates for??
+unique(dets$site) %in% unique(cams$site)
+
+
+#But this is fine I think, now we can get the camera coordinates for all 115 sites
+cams<-cams%>%
+  rename(site = Camera_Site)%>%
+  dplyr::select(site, Easting, Northing)
+  
+#Some stuff before the merge to check
+n_distinct(dets$site) #should be 115
+n_distinct(cams$site) #should be 125 (10 we arent using)
+
+camop<-merge(dets, cams, by = "site")%>%
+  select(site, Easting, Northing, start_date, end_date)
+
+
+```
+
+Preparing the independent detections
+```{r}
+#First we will make a new detection frame by merging the winter and summer dataframes
+dets_all<-rbind(dets_winter, dets_summer)%>%
+  select(site = Location, datetime, species = Species)
+
+#Looks like there is a weird blank species? get rid of it
+#I am going to leave all other species (including unknown stuff), as it will be up to the individual user to figure out how they want to deal with specifics
+unique(dets_all$species)
+dets_all<-dets_all%>%
+  filter(species != "")
+
+#Ok now, arrange all the data by site, species, and time
+#And calculate a lag time for each subsequent species detection at each site
+#THIS WILL LOOK SLIGHTLY STRANGE - this willmore data is missing the "seconds" from its datetime data, which is slightly annoying
+#Should try to track down the original timelapse files
+dets_all<-dets_all%>%
+  arrange(site, species, datetime)%>%
+  group_by(site, species)%>%
+  mutate(timediff = as.numeric(difftime(datetime, lag(datetime),
+                                        units = "mins")))
+
+#This is our rolling window for "independence": we will count windows as independent if they are more than "mins" apart. Here we are using 30 minutes. 
+
+mins<-30
+
+#This loop assigns group ID based on independence. 
+ dets_all$Event.ID <- 9999
+ seq <- as.numeric(paste0(nrow(dets_all),0))
+ seq <- round(seq,-(nchar(seq)))
+ for (i in 2:nrow(dets_all)) {
+   dets_all$Event.ID[i-1]  <- paste0("E",format(seq, scientific = F))
+   if(is.na(dets_all$timediff[i]) | abs(dets_all$timediff[i]) > (mins)){
+     seq <- seq + 1
+   }
+ }
+ 
+ if(dets_all$timediff[nrow(dets_all)] < (mins)|
+    is.na(dets_all$timediff[nrow(dets_all)])){
+   dets_all$Event.ID[nrow(dets_all)] <- dets_all$Event.ID[nrow(dets_all)-1]
+ } else{dets_all$Event.ID[nrow(dets_all)] <- paste0("E",format(seq+1, scientific = F))
+ }
+ 
+  #And then take only the first row of data for each independent event
+dets_all<-dets_all%>%
+   group_by(Event.ID)%>%
+   slice(1)%>%
+  arrange(site, species)
+
+
+```
