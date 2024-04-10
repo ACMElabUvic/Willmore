@@ -293,3 +293,30 @@ dets_all<-dets_all%>%
 
 
 ```
+
+
+##############################################################################################################################
+Preparing the covariate files
+
+```{r}
+
+
+
+
+```
+
+
+
+
+
+And finally, write those outputs
+```{r}
+#output the detection file
+write.csv(dets_all, file.path(output_directory, "willmore_30min_independent_detections.csv"), 
+          row.names = FALSE) #Omit the row index (annoying)
+
+#output the camera operability file
+write.csv(camop, file.path(output_directory, "willmore_camop.csv"),
+          row.names = FALSE)
+
+```
