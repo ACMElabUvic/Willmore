@@ -48,4 +48,5 @@ This folder provides pdf copies of previously published papers using the Willmor
 <hr>
 
 **relevant literature**
-*fdsakfhadskfhdsa
+ Markup : * Bullet list paper 1
+ * paper two?
