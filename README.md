@@ -42,7 +42,7 @@ DETAILS ON OUTPUTS
 
 *Files in data folder*
 
-*relevant literature*  
+**relevant literature**  
 This folder provides pdf copies of previously published papers using the Willmore Wilderness remote camera dataset. The purpose of this folder is to provide background/information on previously published work using this dataset. Note that sample numbers may vary between individual manuscripts due to specifics of individual projects, as well as the multiple deployment designs within the Willmore dataset.
 
 * <span style = "color: #7B0F17;">**data/2021-2022/ **</span>;
