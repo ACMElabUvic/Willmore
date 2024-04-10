@@ -8,7 +8,7 @@ Test repository for willmore camera data
 **Project Information**   
 UPDATE FOR WILLMORE
 
-Details for the Willmore Wilderness research program [here]((http://www.acmelab.ca/willmore.html).
+Details for the Willmore Wilderness research program [here](http://www.acmelab.ca/willmore.html).
 
 Also visit the [ACME website](http://www.acmelab.ca/osm2022.html) more information about the ACME lab.
 
