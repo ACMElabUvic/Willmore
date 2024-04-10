@@ -8,9 +8,9 @@ Test repository for willmore camera data
 **Project Information**   
 UPDATE FOR WILLMORE
 
-Details for the Oil Sands Monitoring Program study design can be found [here](https://open.alberta.ca/publications/9781460151341)  
+Details for the Willmore Wilderness research program [here]([https://open.alberta.ca/publications/9781460151341](http://www.acmelab.ca/willmore.html))  
 
-Also visit the [ACME website](http://www.acmelab.ca/osm2022.html) more information about the OSM project and the ACME lab.
+Also visit the [ACME website](http://www.acmelab.ca/osm2022.html) more information about the ACME lab.
 
 **Author Information (data):**  
  Principal Investigator Contact Information  
