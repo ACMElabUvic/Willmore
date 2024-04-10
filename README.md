@@ -48,8 +48,11 @@ This folder provides pdf copies of previously published papers using the Willmor
 <hr>
 
 **relevant literature**
- Markup : * Bullet list paper 1
  * Barnas et al. 2024 How landscape traits affect boreal mammal responses to anthropogenic disturbance.
- *Fisher and Bradbury 2014 A multi-method hierarchical modeling approach to quantifying bias in occupancy from noninvasive genetic tagging studies
+ * Fisher and Bradbury 2014 A multi-method hierarchical modeling approach to quantifying bias in occupancy from noninvasive genetic tagging studies
+ * Fisher et al. 2011 Body mass explains characteristic scales of habitat selection in terrestrial mammals
+ * Fisher et al. 2013 Spatial segregation of sympatric marten and fishers- the influence of landscapes and species-scapes
+ * Fisher et al. 2014 Spatial patterns of breeding success of grizzly bears derived from hierarchical multistate models
  * Frey et al. 2020 Move to nocturnality not a universal trend in carnivore species on disturbed landscapes
- * 
+ * Khan et al. 2023 Shifts in diel activity of rocky mountain mammal communities in response to anthropogenic disturbance and sympatric invasive white-tailed deer
+ * Stewart et al. 2015 Wolverine behavior varies spatially with anthropogenic footprint - implications for conservation an inferences about declines
