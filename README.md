@@ -49,4 +49,7 @@ This folder provides pdf copies of previously published papers using the Willmor
 
 **relevant literature**
  Markup : * Bullet list paper 1
- * paper two?
+ * Barnas et al. 2024 How landscape traits affect boreal mammal responses to anthropogenic disturbance.
+ *Fisher and Bradbury 2014 A multi-method hierarchical modeling approach to quantifying bias in occupancy from noninvasive genetic tagging studies
+ * Frey et al. 2020 Move to nocturnality not a universal trend in carnivore species on disturbed landscapes
+ * 
