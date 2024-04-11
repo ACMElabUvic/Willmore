@@ -53,8 +53,8 @@ This folder provides pdf copies of previously published papers using the Willmor
 * **Number of observations/rows:** 115 (one per camera site) 
 
 **Variable List:**
-*  <span style = "color: #2274A5;">site<span> : camera site ID
-* Easting : camera site Easting location
+*  <span style = "color: #2274A5;">**site**<span> : camera site ID
+* **Easting** : camera site Easting location
 * Northing : camera site Northing location
 * start_date : first day of camera operation as recorded by a camera trigger (no timelapse function used)
 * end_date : last day of camera operation as recorded by a camera trigger (no timelapse function used)
