@@ -31,7 +31,7 @@ This folder contains both summarized and raw data data products (e.g. raw camera
 1) WillmoreSummer_alldata.csv : this is a binded file of the individual timelapse files from each camera site during the SUMMER study. The individual camera site csv files were unavailable
 2) WillmoreWinter_alldata.csv : this is a binded file of the individual timelapse files from each camera site during the WINTER study. The individual camera site csv files were unavailable
 3) SUMMER WILLMORE BIODIVERSITY SITE LOCATIONS CORRECTED 2017 : this file contains the location of each camera site (UTMs)
-4) WillmoreLandCoverAll.csv : this file contains natural landcover data for the proportion area of a circular buffer around each camera site. Grid codes keys from the original data extraction are provided in other/Wilmore_Griz_Land_Class.tif
+4) WillmoreLandCoverAll.csv : this file contains natural landcover data for the proportion area of a circular buffer around each camera site. Grid codes keys from the original data extraction are provided in other/Wilmore_Griz_Land_Class_Key.jpeg
 5) WillmoreNDVI2008.csv : this file contains mean NDVI for each camera site in 2008
 6) WillmoreNDVI2012.csv : this file contains mean NDVI for each camera site in 2012
 7) WillmoreTRI.csv : this file contains mean TRI for each camera site
@@ -54,7 +54,7 @@ This folder provides pdf copies of previously published papers using the Willmor
 
 **other**  
 This folder contains information from the original data production necessary for producing key data products. 
-1) Wilmore_Griz_Land_Class.tif : translation keys for landcover classes
+1) Wilmore_Griz_Land_Class_Key.jpeg : translation keys for landcover classes
 2) HFI2010_Metadata.pdf - detailed description of human feature index used in the data extraction process (see below)
 
 <hr>
