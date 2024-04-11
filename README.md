@@ -1,6 +1,5 @@
 # Willmore
-Test repository for willmore camera data
-
+This is a test repository for the Willmore Wilderness Area camera-trap research program. 
 <hr>
 
 ### GENERAL INFORMATION
@@ -20,7 +19,11 @@ Also visit the [ACME website](http://www.acmelab.ca/osm2022.html) more informati
  Email: [fisherj@uvic.ca](mailto:fisherj@uvic.ca) 
 
 **Author Information (code):**  
-
+ Data Analysis Contact Information  
+ Name: Andrew Barnas, PhD   
+ Institution: University of Victoria  
+ Address: 3800 Finnerty Rd, Victoria, BC V8P 5C2  
+ Email: [andrew.f.barnas@gmail.com](mailto:andrew.f.barnas@gmail.com) 
 **Date of data collection:** 
 
 **Geographic location of data collection:** TO FILL IN 
