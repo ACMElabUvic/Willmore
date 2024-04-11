@@ -129,4 +129,3 @@ This folder contains information from the original data production necessary for
 *   **mean_ndvi_2012** : mean ndvi value within a 1000m buffer of the camera sites from 2012
 *   **mean_tri** : mean terrain ruggedness index at each camera site
 
-**relevant literature**
