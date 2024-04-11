@@ -1,12 +1,10 @@
 # Willmore
-This is a test repository for the Willmore Wilderness Area camera-trap research program. 
+This repository contains data, R scripts and associated outputs, and other materials necessary for the Aplied Conservation and Macro Ecology (ACME) laboratory's research program in the Willmore Wilderness Research area.
 <hr>
 
 ### GENERAL INFORMATION
 
 **Project Information**   
-UPDATE FOR WILLMORE
-
 Details for the Willmore Wilderness research program [here](http://www.acmelab.ca/willmore.html).
 
 Also visit the [ACME website](http://www.acmelab.ca/osm2022.html) more information about the ACME lab.
@@ -24,13 +22,16 @@ Also visit the [ACME website](http://www.acmelab.ca/osm2022.html) more informati
  Institution: University of Victoria  
  Address: 3800 Finnerty Rd, Victoria, BC V8P 5C2  
  Email: [andrew.f.barnas@gmail.com](mailto:andrew.f.barnas@gmail.com) 
-**Date of data collection:** 
 
-**Geographic location of data collection:** TO FILL IN 
+### DATA & FILE OVERVIEW
+**inputs**
+This folder contains both summarized and raw data data products (e.g. raw camera trap data csv files) used to produce key products in the outputs folder. 
 
-INPUTS
-OUTPUTS
-RELEVANT LITERATURE
+**outputs**
+This folder contains the three key data products needed to move forward with additional analyses; 1) a summary of independent detections of wildlife species at each camera site to a 30 minute threshold, 2) the GPS locations of individual camera sites, and 3) covariates associated with each camera site extracted across multiple radius buffers (details below)
+
+**relevant literature**  
+This folder provides pdf copies of previously published papers using the Willmore Wilderness remote camera dataset. The purpose of this folder is to provide background/information on previously published work using this dataset. Note that sample numbers may vary between individual manuscripts due to specifics of individual projects, as well as the multiple deployment designs within the Willmore dataset.
 
 DETAILS ON INPUTS
 
@@ -45,11 +46,10 @@ DETAILS ON OUTPUTS
 
 *Files in data folder*
 
-**relevant literature**  
-This folder provides pdf copies of previously published papers using the Willmore Wilderness remote camera dataset. The purpose of this folder is to provide background/information on previously published work using this dataset. Note that sample numbers may vary between individual manuscripts due to specifics of individual projects, as well as the multiple deployment designs within the Willmore dataset.
 
 <hr>
 
+### **DETAILS ON OUTPUTS** 
 ### Data specific information for : [outputs/willmore_camop.csv]  
 
 * **Number of variables/columns:** 5
