@@ -38,6 +38,18 @@ dets_winter<-read.csv(file.path(input_directory, "WillmoreWinter_alldata.csv"), 
 #Need something about camera deployment in here too
 cams<-read.csv(file.path(input_directory, "SUMMER WILLMORE BIODIVERSITY SITE LOCATIONS CORRECTED 2017.csv"), header = TRUE)
 
+#Read in the covariate files. These are all seperated into a bunch of different files, so we will deal with them individually later
+#Human Footprint Index
+hfi<-read.csv(file.path(input_directory, "WW_HumanFootprintCover_corrected.csv"), header = TRUE)
+#Landcover Types
+lc<-read.csv(file.path(input_directory, "WillmoreLandCoverAll.csv" ), header = TRUE)
+#NDVI from 2008
+ndvi_2008<-read.csv(file.path(input_directory, "WillmoreNDVI2008.csv"), header = TRUE)
+#NDVI from 2012 (not sure why necessary since this data is not from this period?)
+ndvi_2012<-read.csv(file.path(input_directory, "WillmoreNDVI2012.csv"), header = TRUE)
+#TRI
+tri<-read.csv(file.path(input_directory, "WillmoreTRI.csv" ), header = TRUE)
+
 
 ```
 
@@ -229,7 +241,7 @@ unique(dets$site) %in% unique(cams$site)
 
 #But this is fine I think, now we can get the camera coordinates for all 115 sites
 cams<-cams%>%
-  rename(site = Camera_Site)%>%
+ # rename(site = Camera_Site)%>%
   dplyr::select(site, Easting, Northing)
   
 #Some stuff before the merge to check
@@ -299,6 +311,195 @@ dets_all<-dets_all%>%
 Preparing the covariate files
 
 ```{r}
+#Ok lets remind ourselves of the data we are working with. Multiple files of covariates for the different sites, I am guessing ther will be some inconsistensies on site names and whatnot, so we need to do work to make sure we have covariates for all of the sites in the detection file.
+
+#Covariate files
+hfi
+lc
+ndvi_2008
+ndvi_2012
+tri
+
+#Sites we need data for
+unique(dets_all$site)
+
+#Probably best to deal with these one at a time. I am going to build a new dataframe and just add to it sequentially
+covs<-data.frame(site = unique(dets_all$site))
+
+########################################################################################################
+
+
+
+
+
+#HFI
+
+#How many radius levels
+n_distinct(hfi$radius)
+unique(hfi$radius)
+#Does everyone have the same number of observations?
+hfi%>%
+  group_by(site_name)%>%
+  summarise(n_obs = n())%>%
+  ggplot(aes(x = site_name, y = n_obs))+
+  geom_bar(stat = "identity")
+
+#How many sites? 125 - some extras that we likely eliminated above
+n_distinct(hfi$site_name)
+
+#Ok lets figure out how to get them into the main frame
+unique(covs$site)
+unique(hfi$site_name)
+#It kind of looks to me that the WB_ sites are probably the SW sites (just because these contain the S, E, and H sites as well), whereas the straight WXX sites are probably the winter ones? Yup this makes sense with the LC file too!
+A<-hfi%>%
+  dplyr::select(-X)%>%
+  rename(site = site_name)%>%
+  mutate(site = paste("WW-", site, sep = ""),
+         site = str_replace(site, pattern = "WW-WB_ ", replacement = "SW-"))
+
+#Ah this wont work because things Like W12 become W012
+
+#################################################################################################
+#To save myself some time, maybe I will try to combine the covariate files first?
+unique(hfi$site_name)
+unique(lc$Camera_Sit)  
+
+unique(hfi$site_name) %in% unique(lc$Camera_Sit)
+unique(lc$Camera_Sit) %in% unique(hfi$site_name)  
+  
+#rename so we are working with the same thing
+hfi<-hfi%>%
+  rename(site = site_name)
+#Also rename site here
+lc<-lc%>%
+  rename(site = Camera_Sit)
+
+#How many camera sites lc?
+n_distinct(lc$site)
+#how many radius? Ah right away we can see there are twice as many radius levels in the landcover class than in the HFI class.
+#I guess we have no choice but to truncate the landcover class to match the onces in hfi? LIMITING FACTOR!
+n_distinct(lc$RADIUS)
+n_distinct(hfi$radius)
+
+lc<-lc%>%
+  filter(RADIUS %in% unique(hfi$radius))
+
+#We should recode the landclasses while we are here, and spread this wide
+lc<-lc%>%
+  dplyr::select(site, GRIDCODE, RADIUS, percent_cover = PERCENT.COvER)%>%
+  mutate(GRIDCODE = case_when(GRIDCODE == 1 ~ "dense_conifer",
+                              GRIDCODE == 2 ~ "moderate_conifer",
+                              GRIDCODE == 3 ~ "open_conifer",
+                              GRIDCODE == 4 ~ "mixed",
+                              GRIDCODE == 5 ~ "broadleaf",
+                              GRIDCODE == 6 ~ "open_wetland",
+                              GRIDCODE == 7 ~ "treed_wetland",
+                              GRIDCODE == 8 ~ "shrub",
+                              GRIDCODE == 9 ~ "herb",
+                              GRIDCODE == 10 ~ "agriculture",
+                              GRIDCODE == 11 ~ "regeneration",
+                              GRIDCODE == 12~ "barren",
+                              GRIDCODE == 13 ~ "water",
+                              GRIDCODE == 14 ~ "snow_or_ice",
+                              GRIDCODE == 15 ~ "cloud_or_no_data",
+                              GRIDCODE == 16 ~ "shadow_or_no_data"))%>%
+  pivot_wider(names_from = GRIDCODE, values_from = percent_cover)%>%
+  replace(is.na(.), 0) #and fill in NAs with zero, since this represents an absence of data = 0
+
+#Shoot, need to rename radius
+lc<-lc%>%
+  rename(radius = RADIUS)
+
+#Now we can merge
+df<-merge(hfi, lc, by = c("site", "radius"))
+  
+
+##########################################################
+#Now get the NDVI Stuff in there
+unique(ndvi_2008$CAMERA) %in% unique(df$site)
+n_distinct(ndvi_2008$RADIUS)
+
+ndvi_2008<-ndvi_2008%>%
+  dplyr::select(site = CAMERA, radius = RADIUS, mean_ndvi_2008 = MEAN)
+
+#Easy merge, should just ad one column to the dataframe (up to 37 now)
+df<-merge(df, ndvi_2008, by = c("site", "radius"))
+
+##########################################################
+#Now the 2012 NDVI
+unique(ndvi_2012$CAMERA)
+unique(df$site)
+unique(ndvi_2012$CAMERA) %in% unique(df$site)
+n_distinct(ndvi_2012$RADIUS)
+
+#Looks like if I replace WB- with WB_ , should satisfy
+ndvi_2012<-ndvi_2012%>%
+  dplyr::select(site = CAMERA, radius = RADIUS, mean_ndvi_2012 = MEAN)%>%
+  mutate(site = str_replace(site, pattern = "WB-", replacement = "WB_ "))
+
+#Excellent
+unique(ndvi_2012$site)
+unique(ndvi_2012$site) %in% unique(df$site)
+
+#Easy merge
+df<-merge(df, ndvi_2012, by = c("site", "radius"))
+
+#############################################################
+#TRI
+colnames(tri)
+
+#Nice, looks like the site names are already formatted well
+unique(tri$CAMERA)
+unique(tri$CAMERA) %in% unique(df$site)
+
+tri<-tri%>%
+  dplyr::select(site = CAMERA, radius = RADIUS, mean_tri = MEAN)
+
+#Easy merge
+df<-merge(df, tri, by = c("site", "radius"))
+
+#################################################################
+#Now lastly, need to take the covariates in df, and make them match the site names in the covs file
+unique(df$site)
+unique(covs$site)
+n_distinct(df$site)
+n_distinct(covs$site) #Remember we will only have 115 at the end of the day, so some in df wont make it. 
+
+#What we need is all of these to match - which one of them presently do
+unique(covs$site) %in% unique(df$site)
+
+df<-df%>%
+  mutate(site = paste("WW-", site, sep =""),
+         site = str_replace(site, pattern = "WW-WB_ ", replacement = "SW-"))%>%
+  #Have to get annoyingly specific so that the replacement doesn't fuck with things like WW-W15
+  mutate(site = gsub(pattern = "WW-W01", replacement = "WW-W1", site, fixed = TRUE), 
+         site = gsub(pattern = "WW-W02", replacement = "WW-W2", site, fixed = TRUE),
+         site = gsub(pattern = "WW-W03", replacement = "WW-W3", site, fixed = TRUE),
+         site = gsub(pattern = "WW-W04", replacement = "WW-W4", site, fixed = TRUE),
+         site = gsub(pattern = "WW-W05", replacement = "WW-W5", site, fixed = TRUE),
+         site = gsub(pattern = "WW-W06", replacement = "WW-W6", site, fixed = TRUE),
+         site = gsub(pattern = "WW-W07", replacement = "WW-W7", site, fixed = TRUE),
+         site = gsub(pattern = "WW-W08", replacement = "WW-W8", site, fixed = TRUE),
+         site = gsub(pattern = "WW-W09", replacement = "WW-W9", site, fixed = TRUE))
+
+unique(df$site)
+
+#This just identifies which sites are still missing, and its ok because we don't have detection data for these anyways!
+df%>%
+  filter(!site %in% unique(covs$site))%>%
+  group_by(site)%>%
+  slice(1)
+
+#So now, all of the covs sites should be in the df sites (but not vice versa)
+unique(covs$site) %in% unique(df$site)
+
+#Easy merge
+covs<-merge(covs, df, by = c("site"))
+
+#Clean things up slightly
+covs<-covs%>%
+  dplyr::select(-X)
+
 
 
 
@@ -317,6 +518,10 @@ write.csv(dets_all, file.path(output_directory, "willmore_30min_independent_dete
 
 #output the camera operability file
 write.csv(camop, file.path(output_directory, "willmore_camop.csv"),
+          row.names = FALSE)
+
+#Write the covariate file
+write.csv(covs, file.path(output_directory, "willmore_covariates.csv"),
           row.names = FALSE)
 
 ```
