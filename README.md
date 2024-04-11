@@ -47,7 +47,7 @@ This folder provides pdf copies of previously published papers using the Willmor
 
 <hr>
 
-### GENERAL INFORMATION : [outputs/willmore_camop.csv]  
+### Data specific information for : [outputs/willmore_camop.csv]  
 
 * **Number of variables/columns:** 5
 * **Number of observations/rows:** 115 (one per camera site) 
