@@ -43,19 +43,19 @@ This folder contains the three key data products needed to move forward with add
 
 **relevant literature**  
 This folder provides pdf copies of previously published papers using the Willmore Wilderness remote camera dataset. The purpose of this folder is to provide background/information on previously published work using this dataset. Note that sample numbers may vary between individual manuscripts due to specifics of individual projects, as well as the multiple deployment designs within the Willmore dataset.
+ * Barnas et al. 2024 How landscape traits affect boreal mammal responses to anthropogenic disturbance.
+ * Fisher and Bradbury 2014 A multi-method hierarchical modeling approach to quantifying bias in occupancy from noninvasive genetic tagging studies
+ * Fisher et al. 2011 Body mass explains characteristic scales of habitat selection in terrestrial mammals
+ * Fisher et al. 2013 Spatial segregation of sympatric marten and fishers- the influence of landscapes and species-scapes
+ * Fisher et al. 2014 Spatial patterns of breeding success of grizzly bears derived from hierarchical multistate models
+ * Frey et al. 2020 Move to nocturnality not a universal trend in carnivore species on disturbed landscapes
+ * Khan et al. 2023 Shifts in diel activity of rocky mountain mammal communities in response to anthropogenic disturbance and sympatric invasive white-tailed deer
+ * Stewart et al. 2015 Wolverine behavior varies spatially with anthropogenic footprint - implications for conservation an inferences about declines
 
 **other**  
 This folder contains information from the original data production necessary for producing key data products. 
-1) Wilmore_Griz_Land_Class.tif : translation keys for landcover classes 
-
-**File List:**  
-
-*Files in main folder*
-		
-* <span style = "color: #7B0F17;">**OSM_2022-2023.Rproj**</span>; R project to run code for data cleaning and analyses. 
-
-*Files in data folder*
-
+1) Wilmore_Griz_Land_Class.tif : translation keys for landcover classes
+2) HFI2010_Metadata.pdf - detailed description of human feature index used in the data extraction process (see below)
 
 <hr>
 
@@ -130,11 +130,3 @@ This folder contains information from the original data production necessary for
 *   **mean_tri** : mean terrain ruggedness index at each camera site
 
 **relevant literature**
- * Barnas et al. 2024 How landscape traits affect boreal mammal responses to anthropogenic disturbance.
- * Fisher and Bradbury 2014 A multi-method hierarchical modeling approach to quantifying bias in occupancy from noninvasive genetic tagging studies
- * Fisher et al. 2011 Body mass explains characteristic scales of habitat selection in terrestrial mammals
- * Fisher et al. 2013 Spatial segregation of sympatric marten and fishers- the influence of landscapes and species-scapes
- * Fisher et al. 2014 Spatial patterns of breeding success of grizzly bears derived from hierarchical multistate models
- * Frey et al. 2020 Move to nocturnality not a universal trend in carnivore species on disturbed landscapes
- * Khan et al. 2023 Shifts in diel activity of rocky mountain mammal communities in response to anthropogenic disturbance and sympatric invasive white-tailed deer
- * Stewart et al. 2015 Wolverine behavior varies spatially with anthropogenic footprint - implications for conservation an inferences about declines
