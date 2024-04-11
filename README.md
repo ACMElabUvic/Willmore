@@ -59,6 +59,19 @@ This folder provides pdf copies of previously published papers using the Willmor
 * start_date : first day of camera operation as recorded by a camera trigger (no timelapse function used)
 * end_date : last day of camera operation as recorded by a camera trigger (no timelapse function used)
 
+### Data specific information for : [outputs/willmore_30min_independent_detections.csv]  
+
+* **Number of variables/columns:** 5
+* **Number of observations/rows:** 19072 (one row for each independent detection of a species at each site) 
+
+**Variable List:**
+* site : camera site ID
+* datetime : the datetime (year-month-day hour:minute:second) of the first camera image of each independent detection. Multiple images may be taken during a detection event, and this data has been sliced to the first image for simplicity. Note there was an error in the raw data resulting in no "seconds" being recorded from the timelapse data, therefore all detections end at the top of the hour (e.g. 6:03:00 AM). This should be of little consequence, but is annoying. 
+* species : the species in the independent detection. Note this still contains "Unknowns" and will need to be filtered/cleaned before any analysis.
+* timediff : the difference in time between subsequent independent detections (mins). Note this could be calculated using the datetime column between subsequent detections. NA's represent the first detection of a species at a given camera, as there can be no difference in time from this event to a previous event. 
+* Event.ID : a unique identifier for a species' independent detection at a camera site. 
+
+
 
 **relevant literature**
  * Barnas et al. 2024 How landscape traits affect boreal mammal responses to anthropogenic disturbance.
