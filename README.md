@@ -25,18 +25,28 @@ Also visit the [ACME website](http://www.acmelab.ca/osm2022.html) more informati
 
 ### DATA & FILE OVERVIEW
 **inputs**
+
 This folder contains both summarized and raw data data products (e.g. raw camera trap data csv files) used to produce key products in the outputs folder. 
+*Files in main folder*
+1) WillmoreSummer_alldata.csv : this is a binded file of the individual timelapse files from each camera site during the SUMMER study. The individual camera site csv files were unavailable
+2) WillmoreWinter_alldata.csv : this is a binded file of the individual timelapse files from each camera site during the WINTER study. The individual camera site csv files were unavailable
+3) SUMMER WILLMORE BIODIVERSITY SITE LOCATIONS CORRECTED 2017 : this file contains the location of each camera site (UTMs)
+4) WillmoreLandCoverAll.csv : this file contains natural landcover data for the proportion area of a circular buffer around each camera site. Grid codes keys from the original data extraction are provided in other/Wilmore_Griz_Land_Class.tif
+5) WillmoreNDVI2008.csv : this file contains mean NDVI for each camera site in 2008
+6) WillmoreNDVI2012.csv : this file contains mean NDVI for each camera site in 2012
+7) WillmoreTRI.csv : this file contains mean TRI for each camera site
+8) WW_HumanFootprintCover_corrected.csv : human footpring cover for each camera site (details below)
 
 **outputs**
+
 This folder contains the three key data products needed to move forward with additional analyses; 1) a summary of independent detections of wildlife species at each camera site to a 30 minute threshold, 2) the GPS locations of individual camera sites, and 3) covariates associated with each camera site extracted across multiple radius buffers (details below)
 
 **relevant literature**  
 This folder provides pdf copies of previously published papers using the Willmore Wilderness remote camera dataset. The purpose of this folder is to provide background/information on previously published work using this dataset. Note that sample numbers may vary between individual manuscripts due to specifics of individual projects, as well as the multiple deployment designs within the Willmore dataset.
 
-DETAILS ON INPUTS
-
-DETAILS ON OUTPUTS
-
+**other**  
+This folder contains information from the original data production necessary for producing key data products. 
+1) Wilmore_Griz_Land_Class.tif : translation keys for landcover classes 
 
 **File List:**  
 
