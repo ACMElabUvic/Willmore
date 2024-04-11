@@ -46,6 +46,14 @@ DETAILS ON OUTPUTS
 This folder provides pdf copies of previously published papers using the Willmore Wilderness remote camera dataset. The purpose of this folder is to provide background/information on previously published work using this dataset. Note that sample numbers may vary between individual manuscripts due to specifics of individual projects, as well as the multiple deployment designs within the Willmore dataset.
 
 <hr>
+### DATA-SPECIFIC INFORMATION FOR: [outputs/willmore_camop.csv]  
+
+* **Number of variables/columns:** 5
+* **Number of observations/rows:** 115 (one per camera site) 
+
+**Variable List:**
+*<span style = "color: #2274A5;">site</span>, 
+
 
 **relevant literature**
  * Barnas et al. 2024 How landscape traits affect boreal mammal responses to anthropogenic disturbance.
