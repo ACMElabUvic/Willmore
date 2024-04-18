@@ -260,6 +260,10 @@ Preparing the independent detections
 dets_all<-rbind(dets_winter, dets_summer)%>%
   select(site = Location, datetime, species = Species)
 
+#At this point I am going to output the raw detections here
+write.csv(dets_all, file.path(output_directory, "willmore_detections_raw.csv"), row.names = FALSE)
+
+
 #Looks like there is a weird blank species? get rid of it
 #I am going to leave all other species (including unknown stuff), as it will be up to the individual user to figure out how they want to deal with specifics
 unique(dets_all$species)
