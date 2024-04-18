@@ -39,7 +39,7 @@ This folder contains both summarized and raw data data products (e.g. raw camera
 
 **outputs**
 
-This folder contains the three key data products needed to move forward with additional analyses; 1) a summary of independent detections of wildlife species at each camera site to a 30 minute threshold, 2) the GPS locations of individual camera sites, and 3) covariates associated with each camera site extracted across multiple radius buffers (details below)
+This folder contains the four key data products needed to move forward with additional analyses; 1) the raw detections recorded from cameras (including blank images, nothing has been filtered), 2) a summary of independent detections of wildlife species at each camera site to the standard 30 minute threshold, 3) the GPS locations of individual camera sites, and 4) covariates associated with each camera site extracted across multiple radius buffers (details below)
 
 **relevant literature**  
 This folder provides pdf copies of previously published papers using the Willmore Wilderness remote camera dataset. The purpose of this folder is to provide background/information on previously published work using this dataset. Note that sample numbers may vary between individual manuscripts due to specifics of individual projects, as well as the multiple deployment designs within the Willmore dataset.
@@ -71,6 +71,16 @@ This folder contains information from the original data production necessary for
 * **Northing** : camera site Northing location
 * **start_date** : first day of camera operation as recorded by a camera trigger (no timelapse function used)
 * **end_date** : last day of camera operation as recorded by a camera trigger (no timelapse function used)
+
+### Data specific information for : [outputs/willmore_detections_raw.csv]  
+
+* **Number of variables/columns:** 3
+* **Number of observations/rows:** 151140
+
+**Variable List:**
+* **site** : camera site ID
+* **datetime** : the datetime (year-month-day hour:minute:second) of the first camera image of each independent detection. Multiple images may be taken during a detection event, and this data has been sliced to the first image for simplicity. Note there was an error in the raw data resulting in no "seconds" being recorded from the timelapse data, therefore all detections end at the top of the hour (e.g. 6:03:00 AM). This should be of little consequence, but is annoying. 
+* **species** : the species in the independent detection. Note this still contains "Unknowns" and some blanks, so this will need to be filtered/cleaned before any analysis.
 
 ### Data specific information for : [outputs/willmore_30min_independent_detections.csv]  
 
