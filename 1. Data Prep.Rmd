@@ -1,9 +1,10 @@
 The purpose of this script is to prepare willmore data
 
 Main outputs we want
-1. List of independent detections to 30 minutes threshold
-2. Camera deployment file
-3. Site covariate file
+1. List of raw detections
+2. List of independent detections to 30 minutes threshold
+3. Camera deployment file
+4. Site covariate file
 
 Andrew Barnas
 April 9th 2024
