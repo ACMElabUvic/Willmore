@@ -1,5 +1,5 @@
 # Willmore
-This repository contains data, R scripts and associated outputs, and other materials necessary for the Aplied Conservation and Macro Ecology (ACME) laboratory's research program in the Willmore Wilderness Research area.
+This repository contains data, R scripts and associated outputs, and other materials necessary for the Applied Conservation and Macro Ecology (ACME) laboratory's research program in the Willmore Wilderness Research area.
 <hr>
 
 ### GENERAL INFORMATION
@@ -7,7 +7,7 @@ This repository contains data, R scripts and associated outputs, and other mater
 **Project Information**   
 Details for the Willmore Wilderness research program [here](http://www.acmelab.ca/willmore.html).
 
-Also visit the [ACME website](http://www.acmelab.ca/osm2022.html) more information about the ACME lab.
+Also visit the [ACME website](http://www.acmelab.ca) more information about the ACME lab.
 
 **Author Information (data):**  
  Principal Investigator Contact Information  
