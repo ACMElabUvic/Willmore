@@ -43,6 +43,7 @@ This folder contains the four key data products needed to move forward with addi
 
 **relevant literature**  
 This folder provides pdf copies of previously published papers using the Willmore Wilderness remote camera dataset. The purpose of this folder is to provide background/information on previously published work using this dataset. Note that sample numbers may vary between individual manuscripts due to specifics of individual projects, as well as the multiple deployment designs within the Willmore dataset.
+ * AubertinYoung. 2022 UVIC MSc Thesis - Industrial landscape changes alter fine-scale mammal diversity and mammalian predator-prey dynamics in the northwest Nearctic
  * Barnas et al. 2024 How landscape traits affect boreal mammal responses to anthropogenic disturbance.
  * Fisher and Bradbury 2014 A multi-method hierarchical modeling approach to quantifying bias in occupancy from noninvasive genetic tagging studies
  * Fisher et al. 2011 Body mass explains characteristic scales of habitat selection in terrestrial mammals
